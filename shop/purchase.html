@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="./../fonts.css">
     <link rel="stylesheet" href="./../index.css">
     <link rel="stylesheet" href="./purchase.css">
+    <script defer src="./purchase.js"></script>
   </head>
   <body>
     <nav class="container">
@@ -76,68 +77,5 @@
     <footer>
       <p>&copy; 2024 결제 시스템</p>
     </div>
-    <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        const cartData = JSON.parse(localStorage.getItem("selectedProducts"));
-        if (!cartData || cartData.length === 0) {
-          alert("장바구니가 비어 있습니다.");
-          window.location.href = "./../h18basket_request.html"; // 장바구니가 비어 있을 때 홈 페이지로 리디렉션
-          return;
-        }
-      
-        const productInfoContainer = document.getElementById("product-info");
-        const totalPriceContainer = document.getElementById("total-price");
-      
-        let totalPrice = 0;
-      
-        cartData.forEach(item => {
-          const itemTotalPrice = parseInt(item.price.replace(/[^0-9]/g, "")) * item.quantity;
-          totalPrice += itemTotalPrice;
-        
-          const productDiv = document.createElement("div");
-          productDiv.classList.add("productOne");
-        
-          const productTitle = document.createElement("p");
-          const productTitleStrong = document.createElement("strong");
-          productTitleStrong.textContent = "상품명:";
-          const productTitleText = document.createTextNode(` ${item.title}`);
-          productTitle.appendChild(productTitleStrong);
-          productTitle.appendChild(productTitleText);
-        
-          const productPrice = document.createElement("p");
-          const productPriceStrong = document.createElement("strong");
-          productPriceStrong.textContent = "가격:";
-          const productPriceText = document.createTextNode(` ₩${itemTotalPrice.toLocaleString()}`);
-          productPrice.appendChild(productPriceStrong);
-          productPrice.appendChild(productPriceText);
-        
-          const productQuantity = document.createElement("p");
-          const productQuantityStrong = document.createElement("strong");
-          productQuantityStrong.textContent = "수량:";
-          const productQuantityText = document.createTextNode(` ${item.quantity}`);
-          productQuantity.appendChild(productQuantityStrong);
-          productQuantity.appendChild(productQuantityText);
-        
-          productDiv.appendChild(productTitle);
-          productDiv.appendChild(productPrice);
-          productDiv.appendChild(productQuantity);
-          productInfoContainer.appendChild(productDiv);
-        });
-      
-        const totalParagraph = document.createElement("p");
-        const totalStrong = document.createElement("strong");
-        totalStrong.textContent = "합계:";
-        const totalText = document.createTextNode(` ₩${totalPrice.toLocaleString()}`);
-        totalParagraph.appendChild(totalStrong);
-        totalParagraph.appendChild(totalText);
-        totalPriceContainer.appendChild(totalParagraph);
-      });
-      async function fetchProducts() {
-        const response = await fetch("./shop/data/data.json");
-        const json = await response.json();
-        json.sort((a, b) => a.key - b.key);
-        return json;
-      }
-    </script>
   </body>
 </html>

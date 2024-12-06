@@ -26,7 +26,6 @@ class ProductManager {
   constructor() {
     this.products = [];
   }
-  
   setProducts(products) {
     this.products = products.map(
       item =>
@@ -39,7 +38,6 @@ class ProductManager {
     );
     this.displayProducts(this.products);
   }
-
   // 상품 표시
   displayProducts(products) {
     const productContainer = document.getElementById("product-container");
@@ -61,7 +59,7 @@ class ProductManager {
     // form
     const form = document.createElement("form");
     form.classList.add("basketForm");
-    // 추가
+    // apply
     const productContainerDiv = this.createProductContainer(product);
     form.appendChild(productContainerDiv);
     productDiv.appendChild(productImg);
