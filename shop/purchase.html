@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>결제 페이지</title>
+    <link rel="stylesheet" href="./../fonts.css">
+    <link rel="stylesheet" href="./../index.css">
+    <link rel="stylesheet" href="./purchase.css">
+  </head>
+  <body>
+    <nav class="container">
+      <div class="nav-main-container">
+        <ul class="nav-main">
+          <li><a href="./../index.html"><h2>쇼핑몰</h2></a></li>
+          <li><a href="">내 위치</a></li>
+          <li><a href="">언어</a></li>
+          <li><input type="text" placeholder="검색어를 입력하세요."></li>
+          <li><button class="">장바구니</button></li>
+        </ul>
+      </div>
+      <ul>
+        <li><a href="">카테고리</a></li>
+        <li><a href="">오늘의 딜</a></li>
+        <li><a href="">서비스</a></li>
+        <li><a href="">기프트 카드</a></li>
+        <li><a href="">판매</a></li>
+      </ul>
+    </nav>
+    <div class="container">
+      <div class="header">
+        <h1>결제 정보</h1>
+        <p>상품을 구매하시려면 아래 정보를 입력하세요.</p>
+      </div>
+
+      <div class="product-info" id="product-info"></div>
+
+      <div class="total" id="total-price">
+        <p><strong></strong></p>
+      </div>
+
+      <div class="payment-info">
+        <h2 class="screenout">결제 정보 입력</h2>
+        <div class="input-group">
+          <label for="name">이름</label>
+          <input type="text" id="name" placeholder="이름을 입력하세요" />
+        </div>
+        <div class="input-group">
+          <label for="email">이메일</label>
+          <input type="email" id="email" placeholder="이메일을 입력하세요" />
+        </div>
+        <div class="input-group">
+          <label for="card">카드 번호</label>
+          <input type="text" id="card" placeholder="카드 번호를 입력하세요" />
+        </div>
+        <div class="input-group">
+          <label for="exp">유효 기간</label>
+          <input type="text" id="exp" placeholder="MM/YY" />
+        </div>
+        <div class="input-group">
+          <label for="cvv">CVV</label>
+          <input type="text" id="cvv" placeholder="CVV 코드" />
+        </div>
+        <div class="input-group">
+          <label for="address">주소</label>
+          <input type="text" id="address" placeholder="주소를 입력하세요" />
+          <input type="text" id="detail-address" placeholder="OO빌딩 XXX호" />
+        </div>
+        <div class="input-group">
+          <label for="address">우편 번호</label>
+          <input type="text" id="address-code" placeholder="00000" />
+        </div>
+      </div>
+      <button class="btn">결제하기</button>
+    </div>
+    <footer>
+      <p>&copy; 2024 결제 시스템</p>
+    </div>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const cartData = JSON.parse(localStorage.getItem("selectedProducts"));
+        if (!cartData || cartData.length === 0) {
+          alert("장바구니가 비어 있습니다.");
+          window.location.href = "./../h18basket_request.html"; // 장바구니가 비어 있을 때 홈 페이지로 리디렉션
+          return;
+        }
+      
+        const productInfoContainer = document.getElementById("product-info");
+        const totalPriceContainer = document.getElementById("total-price");
+      
+        let totalPrice = 0;
+      
+        cartData.forEach(item => {
+          const itemTotalPrice = parseInt(item.price.replace(/[^0-9]/g, "")) * item.quantity;
+          totalPrice += itemTotalPrice;
+        
+          const productDiv = document.createElement("div");
+          productDiv.classList.add("productOne");
+        
+          const productTitle = document.createElement("p");
+          const productTitleStrong = document.createElement("strong");
+          productTitleStrong.textContent = "상품명:";
+          const productTitleText = document.createTextNode(` ${item.title}`);
+          productTitle.appendChild(productTitleStrong);
+          productTitle.appendChild(productTitleText);
+        
+          const productPrice = document.createElement("p");
+          const productPriceStrong = document.createElement("strong");
+          productPriceStrong.textContent = "가격:";
+          const productPriceText = document.createTextNode(` ₩${itemTotalPrice.toLocaleString()}`);
+          productPrice.appendChild(productPriceStrong);
+          productPrice.appendChild(productPriceText);
+        
+          const productQuantity = document.createElement("p");
+          const productQuantityStrong = document.createElement("strong");
+          productQuantityStrong.textContent = "수량:";
+          const productQuantityText = document.createTextNode(` ${item.quantity}`);
+          productQuantity.appendChild(productQuantityStrong);
+          productQuantity.appendChild(productQuantityText);
+        
+          productDiv.appendChild(productTitle);
+          productDiv.appendChild(productPrice);
+          productDiv.appendChild(productQuantity);
+          productInfoContainer.appendChild(productDiv);
+        });
+      
+        const totalParagraph = document.createElement("p");
+        const totalStrong = document.createElement("strong");
+        totalStrong.textContent = "합계:";
+        const totalText = document.createTextNode(` ₩${totalPrice.toLocaleString()}`);
+        totalParagraph.appendChild(totalStrong);
+        totalParagraph.appendChild(totalText);
+        totalPriceContainer.appendChild(totalParagraph);
+      });
+      async function fetchProducts() {
+        const response = await fetch("./shop/data/data.json");
+        const json = await response.json();
+        json.sort((a, b) => a.key - b.key);
+        return json;
+      }
+    </script>
+  </body>
+</html>

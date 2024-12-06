@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./index.css" />
+    <link rel="stylesheet" href="./fonts.css" />
+    <title>장바구니 만들어보기</title>
+    <script defer src="./app.js"></script>
+  </head>
+  <body>
+    <!-- nav container -->
+    <nav class="container">
+      <div class="nav-main-container">
+        <ul class="nav-main">
+          <li>
+            <a href="./index.html"><h1>쇼핑몰</h1></a>
+          </li>
+          <li><span id="user-profile"></span></li>
+          <li><a href="">언어</a></li>
+          <!-- search form -->
+          <li>
+            <form id="search-form" action="q">
+              <label for="search-input">
+                <input
+                  type="text"
+                  id="search-input"
+                  placeholder="검색어를 입력하세요."
+                />
+                <button type="submit" id="search-btn">검색</button>
+              </label>
+            </form>
+          </li>
+          <!-- category for mobile -->
+          <li><button class="category-btn">메뉴</button></li>
+        </ul>
+      </div>
+      <!-- category list -->
+      <ul id="category">
+        <li><a href="">카테고리</a></li>
+        <li><a href="">오늘의 딜</a></li>
+        <li><a href="">서비스</a></li>
+        <li><a href="">기프트 카드</a></li>
+        <li><a href="">판매</a></li>
+      </ul>
+    </nav>
+    <!-- slideshow container -->
+    <!-- products list container -->
+    <div class="container" id="product-container"></div>
+    <!-- shopping cart -->
+    <h2>장바구니</h2>
+    <div class="cart">
+      <div>
+        <button class="expand-btn">장바구니 보이기</button>
+        <p>₩5,500,000,001,000 이상 구매시 무료 배송</p>
+        <p class="total">합계: <span id="total-price"></span></p>
+        <div id="cart-container"></div>
+        <!-- purchase form -->
+        <form id="purchase-form" action="./shop/purchase.html">
+          <button type="submit" class="buy-btn purchase">결제하기</button>
+        </form>
+      </div>
+    </div>
+    <!-- cart alert -->
+    <div class="alert-box">
+      <p>상품이 장바구니에 담겼습니다.</p>
+      <span></span>
+    </div>
+    <!-- footer -->
+    <footer>
+      <p>&copy; 2024 쇼핑몰</p>
+    </footer>
+  </body>
+</html>
