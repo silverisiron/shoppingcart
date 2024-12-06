@@ -49,7 +49,6 @@ class ProductManager {
       productContainer.appendChild(productDiv);
     });
   }
-
   // HTML 생성
   createProductElement(product) {
     // div
