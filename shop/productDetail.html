@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./../index.css" />
+    <link rel="stylesheet" href="./../fonts.css" />
+    <link rel="stylesheet" href="./productDetail.css" />
+    <title>제품 상세 페이지</title>
+  </head>
+  <body>
+    <nav class="container">
+      <div class="nav-main-container">
+        <ul class="nav-main">
+          <li>
+            <a href="./../index.html"><h2>쇼핑몰</h2></a>
+          </li>
+          <li><a href="">내 위치</a></li>
+          <li><a href="">언어</a></li>
+          <li><input type="text" placeholder="검색어를 입력하세요." /></li>
+          <li><button class="">장바구니</button></li>
+        </ul>
+      </div>
+      <ul>
+        <li><a href="">카테고리</a></li>
+        <li><a href="">오늘의 딜</a></li>
+        <li><a href="">서비스</a></li>
+        <li><a href="">기프트 카드</a></li>
+        <li><a href="">판매</a></li>
+      </ul>
+    </nav>
+    <div class="product-detail-container">
+      <h2 id="product-name"></h2>
+      <img id="product-image" alt="Product Image" />
+      <p id="product-price"></p>
+      <button onclick="goBack()">돌아가기</button>
+    </div>
+    <script>
+      async function fetchProducts() {
+        const response = await fetch("./../products.json");
+        const json = await response.json();
+        json.sort((a, b) => a.key - b.key);
+        return json;
+      }
+      // URL에서 매개변수 가져오기
+      const params = new URLSearchParams(window.location.search);
+      const productId = params.get("id");
+      //상품 표시
+      async function displayProductDetail() {
+        const products = await fetchProducts();
+        const product = products.find((item) => item.key == productId);
+        if (product) {
+          document.getElementById("product-name").textContent = product.name;
+          document.getElementById(
+            "product-image"
+          ).src = `./../img/${product.image}`;
+          document.getElementById(
+            "product-price"
+          ).textContent = `가격: ₩${product.price}`;
+        } else {
+          document.getElementById("product-name").textContent =
+            "상품을 찾을 수 없습니다.";
+        }
+      }
+      // displayProductDetail() 호출
+      displayProductDetail();
+      // 뒤로 가기 함수
+      function goBack() {
+        window.history.back();
+      }
+    </script>
+  </body>
+</html>
