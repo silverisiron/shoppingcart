@@ -235,6 +235,7 @@ class ShoppingCart {
       this.cart.push(new CartItem(product, quantity));
     }
     this.updateCartUI();
+    this.updateLocalStorage();
   }
   // 상품 제거
   removeItem(index) {
@@ -244,6 +245,7 @@ class ShoppingCart {
       this.cart.splice(index, 1);
     }
     this.updateCartUI();
+    this.updateLocalStorage();
   }
   // 장바구니 업데이트
   updateCartUI() {
@@ -290,6 +292,15 @@ class ShoppingCart {
       quantity: item.quantity,
     }));
   }
+  // localstorage에 저장
+  updateLocalStorage() {
+    const cartData = this.cart.map(item => ({
+      title: item.product.name,
+      price: item.product.price,
+      quantity: item.quantity,
+    }));
+    localStorage.setItem('selectedProducts', JSON.stringify(cartData));
+  }
 }
 // 결제하기 설정
 class PurchaseForm {
@@ -298,17 +309,14 @@ class PurchaseForm {
   }
   submitForm() {
     const selectedProductsArray = shoppingCart.getSelectedProductsArray();
-    localStorage.setItem(
-      "selectedProducts",
-      JSON.stringify(selectedProductsArray)
-    );
+    localStorage.setItem("selectedProducts",JSON.stringify(selectedProductsArray));
     this.form.submit();
   }
 }
 const shoppingCart = new ShoppingCart();
 const purchaseForm = new PurchaseForm();
 // ============================ 기타 이벤트 관리 ============================
-// 장바구니 Alert
+// 장바구니 Alert 이벤트
 class AlertBox {
   constructor() {
     this.alertBox = document.querySelector(".alert-box");
@@ -323,15 +331,18 @@ class AlertBox {
   }
 }
 const alertBox = new AlertBox();
-// slide 설정
-let slideIndex = 1;
-// 장바구니 확장 설정
+// 장바구니 확장 이벤트
 document.querySelectorAll(".expand-btn").forEach((button) => {
   button.addEventListener("click", () => {
     document.querySelector(".cart").classList.toggle("show");
   });
 });
-// 검색
+// 카테고리 버튼 이벤트
+document.querySelector(".category-btn").addEventListener("click", () => {
+  const category = document.getElementById("category");
+  category.classList.toggle("show");
+});
+// 검색 이벤트
 document.getElementById("search-form").addEventListener("submit", function (event) {
   event.preventDefault();
   const searchInput = document.getElementById("search-input").value.toLowerCase();
@@ -341,8 +352,5 @@ document.getElementById("search-form").addEventListener("submit", function (even
   );
   productManager.displayProducts(filteredProducts);
 });
-// 카테고리 버튼 클릭 시 동작
-document.querySelector(".category-btn").addEventListener("click", () => {
-  const category = document.getElementById("category");
-  category.classList.toggle("show");
-});
+// slide 설정
+let slideIndex = 1;

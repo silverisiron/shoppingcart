@@ -10,17 +10,34 @@
     <script defer src="./purchase.js"></script>
   </head>
   <body>
+    <!-- nav container -->
     <nav class="container">
       <div class="nav-main-container">
         <ul class="nav-main">
-          <li><a href="./../index.html"><h2>쇼핑몰</h2></a></li>
-          <li><a href="">내 위치</a></li>
+          <li>
+            <a href="./index.html"><h1>쇼핑몰</h1></a>
+          </li>
+          <li><span id="user-profile"></span></li>
           <li><a href="">언어</a></li>
-          <li><input type="text" placeholder="검색어를 입력하세요."></li>
-          <li><button class="">장바구니</button></li>
+          <!-- search form -->
+          <li>
+            <form id="search-form" action="q">
+              <label for="search-input">
+                <input
+                  type="text"
+                  id="search-input"
+                  placeholder="검색어를 입력하세요."
+                />
+                <button type="submit" id="search-btn">검색</button>
+              </label>
+            </form>
+          </li>
+          <!-- category for mobile -->
+          <li><button class="category-btn">메뉴</button></li>
         </ul>
       </div>
-      <ul>
+      <!-- category list -->
+      <ul id="category">
         <li><a href="">카테고리</a></li>
         <li><a href="">오늘의 딜</a></li>
         <li><a href="">서비스</a></li>
