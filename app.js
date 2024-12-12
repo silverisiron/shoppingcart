@@ -354,3 +354,17 @@ document.getElementById("search-form").addEventListener("submit", function (even
 });
 // slide 설정
 let slideIndex = 1;
+function showSlides() {
+  const slides = document.querySelector('.slide-wrapper');
+  if (slideIndex == 1) {
+    slides.style.marginLeft = '0%';
+    slideIndex++;
+  } else if (slideIndex == 2) {
+    slides.style.marginLeft = '-100%';
+    slideIndex++;
+  } else if (slideIndex == 3) {
+    slides.style.marginLeft = '-200%';
+    slideIndex = 1;
+  }
+}
+setInterval(showSlides, 5000);
